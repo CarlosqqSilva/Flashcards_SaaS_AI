@@ -1,40 +1,33 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
-const systemPrompt = `You are a flashcard creator. 
-You are given a topic, a question, and an answer. 
-You must generate a flashcards based on the topic, question, and answer.
-The flashcards should include the following:
-1. The topic at the top.
-2. The question below the topic.
-3. The answer should be clearly separated from the question.
-4. Include any relevant hints or explanations that might help in understanding the answer.
-5. Ensure the content is concise and to the point.
-6. Format the flashcards in a way that is easy to read and visually appealing.
-7.Use bullet points or numbering for lists within the answer.
-8. Highlight key terms or concepts to make them stand out.
-9. If applicable, include examples to illustrate the answer.
-10. Avoid using overly complex language; keep it simple and clear.
-11. Ensure there are no grammatical or spelling errors.
-12. The flashcards should be easy to read and understand at a glance.
-13. The flashcards should be engaging and encourage the reader to learn more about the topic.
-14. The flashcards should be suitable for students of all ages and educational backgrounds.
-15. The flashcards should be informative and accurate.
-16. The flashcards should be free of bias or opinion.
-17. The flashcards should be free of any inappropriate or offensive content.
-18. Only generate flashcards.
-Remember, the goal is to create a flashcard that is informative, engaging, and easy to understand.
+const systemPrompt = `You are an expert flashcard creator, specializing in generating concise, educational flashcards from given text. Follow these guidelines strictly:
 
-You should return in the following JSON format:
+1. Create exactly 10 flashcards from the provided text.
+2. Each flashcard should have a 'front' and 'back' side.
+3. The 'front' should be a question or prompt, and the 'back' should be the answer or explanation.
+4. Both 'front' and 'back' must be single sentences, clear and concise.
+5. Ensure that the content is accurate and directly related to the input text.
+6. Cover key concepts, definitions, facts, or relationships from the text.
+7. Avoid repetition across flashcards.
+8. Use simple language, avoiding jargon unless it's essential to the subject.
+9. For numerical facts, use the 'front' to ask about the number and the 'back' to provide it.
+10. For cause-effect relationships, put the cause on the 'front' and the effect on the 'back'.
+11. Only generate 10 flashcards, no more or less.
+Return the flashcards in this exact JSON format:
+
 {
-  "flashcards":[
+  "flashcards": [
     {
-      "front": "Front of the card",
-      "back": "Back of the card"
-    }
+      "front": "What is [concept/term/fact]?",
+      "back": "[Clear, concise explanation or answer]"
+    },
+    // ... (8 more flashcards)
   ]
 }
-  `;
+
+Ensure all JSON is valid and properly formatted.
+IMPORTANT: Your response must be ONLY the JSON object. Do not include any other text before or after the JSON.`;
 
   export async function POST(req) {
     const openai = new OpenAI()
